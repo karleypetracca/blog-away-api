@@ -35,3 +35,8 @@ INSERT INTO posts
   (title, post, author_id)
 VALUES
   ('Welcome to my blog!', 'This place is pretty cool if you ask me. Stick around and you will see the next blogstar (or maybe even ALLstar!) rise before your very eyes.', 1);
+  
+INSERT INTO comments
+  (comment, post_id, author_id)
+VALUES
+  ('Best blog post ever seen. Bravo!', 1, 1);
