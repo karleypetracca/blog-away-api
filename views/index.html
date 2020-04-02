@@ -3,12 +3,29 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>React-Blog API</title>
+		<title>Blog Away API</title>
 		<link rel="stylesheet" href="/stylesheets/style.css" />
 	</head>
 
 	<body>
-		<h1>React-Blog API</h1>
-		<p>Welcome to Express</p>
+
+		<header>
+			<h1>Welcome to the Blog Away API</h1>
+			<p>Steal other's thoughts and comments from Blog Away through our API.</p>
+		</header>
+		<section>
+			<p>
+			Calls you can make include:
+				<ul>
+					<li><b>/api/posts</b> - pulls all available blog posts</li>
+					<li><b>/api/post/[post_id]</b> - pulls a specific blog post based on post_id</li>
+					<li><b>/api/comments/[post_id]</b> - pulls all comments tied to a specific
+					blog post based on post_id</li>
+					<li><b>/api/authors</b> - pulls all authors listed on the site</li>
+					<li><b>/api/author/[author_id]</b> - pulls a specific author based on author_id</li> 
+				</ul>
+			</p>
+		</section>
+		
 	</body>
 </html>
