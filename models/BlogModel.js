@@ -6,24 +6,65 @@ class BlogModel {
 		this.id = id;
 	}
 
-	static async getWithAwait(url) {
+	// Posts //
+
+	static async getAllPosts() {
 		try {
-			const response = await fetch(url);
-			const data = await response.json();
-			return data;
+			let allPosts = await db.one(`SELECT * FROM posts;`);
+			return allPosts;
 		} catch (error) {
-			console.error("ERROR: ", error);
+			console.error("ERROR", error);
 			return error;
 		}
 	}
 
-	static async getBlogs() {
+	static async getOnePost(id) {
 		try {
-			// let avgRating = await db.one(
-			//   `SELECT AVG(comment.rating) FROM comment
-			//   WHERE comment.drink_id = ${id};`
-			// );
-			return "";
+			let onePost = await db.one(
+				`SELECT * FROM posts 
+			  WHERE id = ${id};`
+			);
+			return onePost;
+		} catch (error) {
+			console.error("ERROR", error);
+			return error;
+		}
+	}
+
+	// Comments //
+
+	static async getAllComments(id) {
+		try {
+			let allComments = await db.one(
+				`SELECT * FROM comments 
+			  WHERE post_id = ${id};`
+			);
+			return allComments;
+		} catch (error) {
+			console.error("ERROR", error);
+			return error;
+		}
+	}
+
+	// Authors //
+
+	static async getAllAuthors(id) {
+		try {
+			let allAuthors = await db.one(`SELECT * FROM authors;`);
+			return allAuthors;
+		} catch (error) {
+			console.error("ERROR", error);
+			return error;
+		}
+	}
+
+	static async getOneAuthor(id) {
+		try {
+			let oneAuthor = await db.one(
+				`SELECT * FROM authors 
+			  WHERE id = ${id};`
+			);
+			return oneAuthor;
 		} catch (error) {
 			console.error("ERROR", error);
 			return error;
