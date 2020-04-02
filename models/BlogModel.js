@@ -42,9 +42,7 @@ class BlogModel {
 	static async getAllComments(id) {
 		try {
 			let allComments = await db.any(`
-				SELECT * FROM comments
-				INNER JOIN posts
-				ON comments.post_id = posts.id
+				SELECT comments.comment, comments.post_id, comments.author_id, authors.author as comment_author, authors.email as comment_email FROM comments
 				INNER JOIN authors
 				ON comments.author_id = authors.id
 			  WHERE post_id = ${id};
