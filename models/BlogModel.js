@@ -10,7 +10,11 @@ class BlogModel {
 
 	static async getAllPosts() {
 		try {
-			let allPosts = await db.one(`SELECT * FROM posts;`);
+			let allPosts = await db.any(`
+				SELECT * FROM posts
+				INNER JOIN authors
+				ON posts.author_id = authors.id;
+			`);
 			return allPosts;
 		} catch (error) {
 			console.error("ERROR", error);
@@ -20,10 +24,12 @@ class BlogModel {
 
 	static async getOnePost(id) {
 		try {
-			let onePost = await db.one(
-				`SELECT * FROM posts 
-			  WHERE id = ${id};`
-			);
+			let onePost = await db.any(`
+				SELECT * FROM posts
+				INNER JOIN authors
+				ON posts.author_id = authors.id 
+			  WHERE id = ${id};
+			`);
 			return onePost;
 		} catch (error) {
 			console.error("ERROR", error);
@@ -35,10 +41,14 @@ class BlogModel {
 
 	static async getAllComments(id) {
 		try {
-			let allComments = await db.one(
-				`SELECT * FROM comments 
-			  WHERE post_id = ${id};`
-			);
+			let allComments = await db.any(`
+				SELECT * FROM comments
+				INNER JOIN posts
+				ON comments.post_id = posts.id
+				INNER JOIN authors
+				ON comments.author_id = authors.id
+			  WHERE post_id = ${id};
+			`);
 			return allComments;
 		} catch (error) {
 			console.error("ERROR", error);
@@ -50,7 +60,9 @@ class BlogModel {
 
 	static async getAllAuthors(id) {
 		try {
-			let allAuthors = await db.one(`SELECT * FROM authors;`);
+			let allAuthors = await db.any(`
+				SELECT * FROM authors;
+			`);
 			return allAuthors;
 		} catch (error) {
 			console.error("ERROR", error);
@@ -60,10 +72,12 @@ class BlogModel {
 
 	static async getOneAuthor(id) {
 		try {
-			let oneAuthor = await db.one(
-				`SELECT * FROM authors 
-			  WHERE id = ${id};`
-			);
+			let oneAuthor = await db.any(`
+				SELECT * FROM authors 
+				INNER JOIN posts
+				ON authors.id = posts.author_id
+			  WHERE authors.id = ${id};
+			`);
 			return oneAuthor;
 		} catch (error) {
 			console.error("ERROR", error);
