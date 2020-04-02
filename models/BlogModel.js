@@ -24,11 +24,11 @@ class BlogModel {
 
 	static async getOnePost(id) {
 		try {
-			let onePost = await db.any(`
+			let onePost = await db.one(`
 				SELECT * FROM posts
 				INNER JOIN authors
 				ON posts.author_id = authors.id 
-			  WHERE id = ${id};
+			  WHERE posts.author_id = ${id};
 			`);
 			return onePost;
 		} catch (error) {
@@ -58,7 +58,7 @@ class BlogModel {
 
 	// Authors //
 
-	static async getAllAuthors(id) {
+	static async getAllAuthors() {
 		try {
 			let allAuthors = await db.any(`
 				SELECT * FROM authors;
@@ -72,7 +72,7 @@ class BlogModel {
 
 	static async getOneAuthor(id) {
 		try {
-			let oneAuthor = await db.any(`
+			let oneAuthor = await db.one(`
 				SELECT * FROM authors 
 				INNER JOIN posts
 				ON authors.id = posts.author_id
