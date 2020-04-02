@@ -1,3 +1,3 @@
-# HoldMyLiquor
+# Blog Away API
 
-API for the React-Blog
+API for Blog Away
