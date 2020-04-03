@@ -29,7 +29,7 @@ class BlogModel {
 				SELECT * FROM posts
 				INNER JOIN authors
 				ON posts.author_id = authors.id 
-			  WHERE posts.author_id = ${id};
+			  WHERE posts.id = ${id};
 			`);
 			return onePost;
 		} catch (error) {
