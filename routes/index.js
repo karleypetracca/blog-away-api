@@ -55,7 +55,7 @@ router.post("/post/post", async (req, res) => {
 	if (response.command === "INSERT" && response.rowCount >= 1) {
 		res.sendStatus(200);
 	} else {
-		res.send("Could not add new comment").status(409);
+		res.send("Could not add new blog post").status(409);
 	}
 });
 

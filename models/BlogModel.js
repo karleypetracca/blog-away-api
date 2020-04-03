@@ -13,7 +13,8 @@ class BlogModel {
 			const allPosts = await db.any(`
 				SELECT * FROM posts
 				INNER JOIN authors
-				ON posts.author_id = authors.id;
+				ON posts.author_id = authors.id
+				ORDER BY posts.id DESC;
 			`);
 			return allPosts;
 		} catch (error) {
@@ -45,7 +46,8 @@ class BlogModel {
 				SELECT comments.comment, comments.post_id, comments.author_id, authors.author as comment_author, authors.email as comment_email FROM comments
 				INNER JOIN authors
 				ON comments.author_id = authors.id
-			  WHERE post_id = ${id};
+				WHERE comments.post_id = ${id}
+				ORDER BY comments.id DESC;
 			`);
 			return allComments;
 		} catch (error) {
@@ -88,7 +90,7 @@ class BlogModel {
 	static async addPost(title, post, author_id) {
 		try {
 			const postPost = await db.result(`
-				INSERT INTO comments (title, post, author_id)
+				INSERT INTO posts (title, post, author_id)
 				VALUES ('${title}', '${post}', ${author_id})
 			`);
 			return postPost;
