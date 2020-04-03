@@ -85,6 +85,19 @@ class BlogModel {
 
 	// ADDING TO DB
 
+	static async addPost(title, post, author_id) {
+		try {
+			const postPost = await db.result(`
+				INSERT INTO comments (title, post, author_id)
+				VALUES ('${title}', '${post}', ${author_id})
+			`);
+			return postPost;
+		} catch (error) {
+			console.error("ERROR", error);
+			return error.message;
+		}
+	}
+
 	static async addComment(comment, author_id, post_id) {
 		try {
 			const postComment = await db.result(`

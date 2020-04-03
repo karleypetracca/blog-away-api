@@ -47,6 +47,18 @@ router.get("/api/author/:author_id?", async (req, res) => {
 });
 
 /* // // POST JSON API Calls // // */
+/* add blog post */
+router.post("/post/post", async (req, res) => {
+	const { title, post, author_id } = req.body;
+	const response = await BlogModel.addPost(title, post, author_id);
+
+	if (response.command === "INSERT" && response.rowCount >= 1) {
+		res.sendStatus(200);
+	} else {
+		res.send("Could not add new comment").status(409);
+	}
+});
+
 /* add comment */
 router.post("/post/comment", async (req, res) => {
 	const { comment, author_id, post_id } = req.body;
