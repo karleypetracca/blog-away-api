@@ -10,7 +10,7 @@ class BlogModel {
 
 	static async getAllPosts() {
 		try {
-			let allPosts = await db.any(`
+			const allPosts = await db.any(`
 				SELECT * FROM posts
 				INNER JOIN authors
 				ON posts.author_id = authors.id;
@@ -18,13 +18,13 @@ class BlogModel {
 			return allPosts;
 		} catch (error) {
 			console.error("ERROR", error);
-			return error;
+			return error.message;
 		}
 	}
 
 	static async getOnePost(id) {
 		try {
-			let onePost = await db.one(`
+			const onePost = await db.one(`
 				SELECT * FROM posts
 				INNER JOIN authors
 				ON posts.author_id = authors.id 
@@ -33,7 +33,7 @@ class BlogModel {
 			return onePost;
 		} catch (error) {
 			console.error("ERROR", error);
-			return error;
+			return error.message;
 		}
 	}
 
@@ -41,7 +41,7 @@ class BlogModel {
 
 	static async getAllComments(id) {
 		try {
-			let allComments = await db.any(`
+			const allComments = await db.any(`
 				SELECT comments.comment, comments.post_id, comments.author_id, authors.author as comment_author, authors.email as comment_email FROM comments
 				INNER JOIN authors
 				ON comments.author_id = authors.id
@@ -50,7 +50,7 @@ class BlogModel {
 			return allComments;
 		} catch (error) {
 			console.error("ERROR", error);
-			return error;
+			return error.message;
 		}
 	}
 
@@ -58,19 +58,19 @@ class BlogModel {
 
 	static async getAllAuthors() {
 		try {
-			let allAuthors = await db.any(`
+			const allAuthors = await db.any(`
 				SELECT * FROM authors;
 			`);
 			return allAuthors;
 		} catch (error) {
 			console.error("ERROR", error);
-			return error;
+			return error.message;
 		}
 	}
 
 	static async getOneAuthor(id) {
 		try {
-			let oneAuthor = await db.one(`
+			const oneAuthor = await db.one(`
 				SELECT * FROM authors 
 				INNER JOIN posts
 				ON authors.id = posts.author_id
@@ -79,7 +79,22 @@ class BlogModel {
 			return oneAuthor;
 		} catch (error) {
 			console.error("ERROR", error);
-			return error;
+			return error.message;
+		}
+	}
+
+	// ADDING TO DB
+
+	static async addComment(comment, author_id, post_id) {
+		try {
+			const postComment = await db.result(`
+				INSERT INTO comments (comment, author_id, post_id)
+				VALUES ('${comment}', ${author_id}, '${post_id}')
+			`);
+			return postComment;
+		} catch (error) {
+			console.error("ERROR", error);
+			return error.message;
 		}
 	}
 }

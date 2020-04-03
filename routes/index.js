@@ -2,11 +2,12 @@ const express = require("express"),
 	router = express.Router(),
 	BlogModel = require("../models/BlogModel");
 
-/* GET home page. */
+/* // // GET home page. // // */
 router.get("/", function (req, res) {
 	res.render("index", { title: "Welcome to the React-Blog API" });
 });
 
+/* // // GET JSON API Calls // // */
 /* JSON all posts */
 router.get("/api/posts", async (req, res) => {
 	let data = await BlogModel.getAllPosts();
@@ -43,6 +44,19 @@ router.get("/api/author/:author_id?", async (req, res) => {
 	let data = await BlogModel.getOneAuthor(author_id);
 
 	res.json(data).status(200);
+});
+
+/* // // POST JSON API Calls // // */
+/* add comment */
+router.post("/post/comment", async (req, res) => {
+	const { comment, author_id, post_id } = req.body;
+	const response = await BlogModel.addComment(comment, author_id, post_id);
+
+	if (response.command === "INSERT" && response.rowCount >= 1) {
+		res.sendStatus(200);
+	} else {
+		res.send("Could not add new comment").status(409);
+	}
 });
 
 module.exports = router;
