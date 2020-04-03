@@ -11,7 +11,7 @@ class BlogModel {
 	static async getAllPosts() {
 		try {
 			const allPosts = await db.any(`
-				SELECT * FROM posts
+				SELECT posts.id, posts.title, posts.post, authors.author FROM posts
 				INNER JOIN authors
 				ON posts.author_id = authors.id
 				ORDER BY posts.id DESC;
